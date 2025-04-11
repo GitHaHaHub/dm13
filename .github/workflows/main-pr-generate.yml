@@ -41,9 +41,9 @@ jobs:
           echo "$COMMIT_MSG" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
 
-          # Capture tag (may be empty)
-          TAG=$(git tag --points-at origin/develop)
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          # Capture version (may be empty)
+          VERSION=$(git tag --points-at origin/develop | sed 's/^.//')
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
 
       - name: Create PR from develop to main
@@ -90,6 +90,5 @@ jobs:
         id: tag-main
         run: |
               git fetch origin main
-              git checkout main
               git tag -f "${{ steps.get-data.outputs.version }}"
               git push -f origin "${{ steps.get-data.outputs.version }}"
