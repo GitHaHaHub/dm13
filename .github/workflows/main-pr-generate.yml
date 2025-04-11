@@ -32,14 +32,19 @@ jobs:
         id: get-data
         run: |
           git fetch origin develop
+
+          # Capture commit message safely
           COMMIT_MSG=$(git log origin/develop -1 --pretty=%B)
+          # Trim any trailing newline
+          COMMIT_MSG="${COMMIT_MSG%"${COMMIT_MSG##*[![:space:]]}"}"
           echo "commit_msg<<EOF" >> "$GITHUB_OUTPUT"
           echo "$COMMIT_MSG" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
 
-          VERSION=$(git tag --points-at origin/develop | sed 's/^.//')
+          # Capture tag (may be empty)
+          TAG=$(git tag --points-at origin/develop)
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Create PR from develop to main
         id: create-pr
