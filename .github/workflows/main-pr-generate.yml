@@ -33,7 +33,10 @@ jobs:
         run: |
           git fetch origin develop
           COMMIT_MSG=$(git log origin/develop -1 --pretty=%B)
-          echo "commit_msg=$COMMIT_MSG" >> "$GITHUB_OUTPUT"
+          echo "commit_msg<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$COMMIT_MSG" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
           TAG=$(git tag --points-at origin/develop)
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
