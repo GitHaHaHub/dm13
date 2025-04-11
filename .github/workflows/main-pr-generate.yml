@@ -12,9 +12,8 @@ permissions:
   issues: write
 
 jobs:
-  generate-main-pr:
-    if:
-     github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'chore(develop)')
+  main-pr:
+    if: startsWith(github.event.pull_request.title, 'chore(develop)')
     runs-on: ubuntu-latest
 
     steps:
@@ -29,38 +28,52 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
 
+      - name: Get Data from latest develop
+        id: get-data
+        run: |
+          git fetch origin develop
+          COMMIT_MSG=$(git log origin/develop -1 --pretty=%B)
+          echo "commit_msg=$COMMIT_MSG" >> "$GITHUB_OUTPUT"
+          TAG=$(git tag --points-at origin/develop)
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
       - name: Create PR from develop to main
         id: create-pr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr create \
-          --base main \
-          --head develop \
-          --title "$(echo "${{ github.event.pull_request.title }}" | sed 's/chore(develop):/chore(main):/')" \
-          --body "${{ github.event.pull_request.body }}"
+          PR_URL=$(gh pr create \
+            --base main \
+            --head develop \
+            --title "$(echo "${{ github.event.pull_request.title }}" | sed 's/chore(develop):/chore(main):/')" \
+            --body "${{ github.event.pull_request.body }}")
+          echo "pull-request-url=$PR_URL" >> "$GITHUB_OUTPUT"
+          PR_NUMBER=$(echo "$PR_URL" | grep -oE '[0-9]+$')
+          echo "pull-request-number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
 
-      - name: merge PR
+      - name: Merge PR
         id: merge-pr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --merge
+          gh pr merge "${{ steps.create-pr.outputs.pull-request-number }}" \
+            --merge \
+            --body "$(echo "${{ steps.get-data.outputs.commit_msg }}" | sed 's/chore(develop):/chore(main):/')"
 
       - name: Add published label to PR
         uses: actions/github-script@v7
         with:
           script: |
             github.rest.issues.addLabels({
-              issue_number: context.payload.pull_request.number,
+              issue_number: Number('${{ steps.create-pr.outputs.pull-request-number }}'),
               owner: context.repo.owner,
               repo: context.repo.repo,
               labels: ["autorelease: published"]
             })
 
       - name: Tag main
+        id: tag-main
         run: |
           git fetch origin main
-          git tag -f ${{ steps.extract.outputs.version }} origin/main
-          git push -f origin ${{ steps.extract.outputs.version }}
-
+          git tag -f "${{ steps.get-data.outputs.tag }}" origin/main
+          git push -f origin "${{ steps.get-data.outputs.tag }}"
