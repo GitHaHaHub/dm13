@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/GitHaHaHub/dm13/compare/v1.7.0...v1.8.0) (2025-04-11)
+
+
+### Features
+
+* docx ([1279f8f](https://github.com/GitHaHaHub/dm13/commit/1279f8f3f2984cde4c09d1dd15a07d9eda4f38c0))
+
 ## [1.7.0](https://github.com/GitHaHaHub/dm13/compare/v1.6.0...v1.7.0) (2025-04-11)
 
 
