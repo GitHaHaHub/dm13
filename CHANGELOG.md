@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/GitHaHaHub/dm13/compare/v1.4.0...v1.5.0) (2025-04-11)
+
+
+### Features
+
+* del b ([7965340](https://github.com/GitHaHaHub/dm13/commit/7965340a0df97c41dd5ba16197ef15a52b56ed49))
+
 ## [1.4.0](https://github.com/GitHaHaHub/dm13/compare/v1.3.0...v1.4.0) (2025-04-11)
 
 
