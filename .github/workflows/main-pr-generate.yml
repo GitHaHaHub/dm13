@@ -46,11 +46,14 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr create \
+          PR_URL=$(gh pr create \
           --base main \
           --head develop \
           --title "$(echo "${{ github.event.pull_request.title }}" | sed 's/chore(develop):/chore(main):/')" \
-          --body "${{ github.event.pull_request.body }}"
+          --body "${{ github.event.pull_request.body }}")
+
+          PR_NUMBER=$(echo "$PR_URL" | grep -oE '[0-9]+$')
+          echo "pull_request_number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
 
       - name: Merge PR
         id: merge-pr
