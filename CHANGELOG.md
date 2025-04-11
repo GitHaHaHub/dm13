@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/GitHaHaHub/dm13/compare/v1.5.0...v1.6.0) (2025-04-11)
+
+
+### Features
+
+* add c ([c593db3](https://github.com/GitHaHaHub/dm13/commit/c593db3152f541ad36124fb518b307d659e479dd))
+
 ## [1.5.0](https://github.com/GitHaHaHub/dm13/compare/v1.4.0...v1.5.0) (2025-04-11)
 
 
