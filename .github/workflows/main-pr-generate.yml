@@ -37,33 +37,34 @@ jobs:
           echo "$COMMIT_MSG" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
 
-          TAG=$(git tag --points-at origin/develop)
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          VERSION=$(git tag --points-at origin/develop | sed 's/^.//')
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Create PR from develop to main
         id: create-pr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          PR_URL=$(gh pr create \
-            --base main \
-            --head develop \
-            --title "$(echo "${{ github.event.pull_request.title }}" | sed 's/chore(develop):/chore(main):/')" \
-            --body "${{ github.event.pull_request.body }}")
-          echo "pull-request-url=$PR_URL" >> "$GITHUB_OUTPUT"
-          PR_NUMBER=$(echo "$PR_URL" | grep -oE '[0-9]+$')
-          echo "pull-request-number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
+          gh pr create \
+          --base main \
+          --head develop \
+          --title "$(echo "${{ github.event.pull_request.title }}" | sed 's/chore(develop):/chore(main):/')" \
+          --body "${{ github.event.pull_request.body }}"
 
       - name: Merge PR
         id: merge-pr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          COMMIT_MSG="${{ steps.get-data.outputs.commit_msg }}"
-          PR_NUMBER="${{ steps.create-pr.outputs.pull-request-number }}"
+          COMMIT_MSG="$(echo "${{ steps.get-data.outputs.commit_msg }}")"
           FINAL_MSG=$(echo "$COMMIT_MSG" | sed 's/chore(develop):/chore(main):/')
           
-          gh pr merge "$PR_NUMBER" --merge --body "$FINAL_MSG"
+          git fetch origin main
+          git checkout main
+
+          git merge --no-ff "origin/develop" -m "$FINAL_MSG"
+          git push origin main
 
 
       - name: Add published label to PR
@@ -80,6 +81,7 @@ jobs:
       - name: Tag main
         id: tag-main
         run: |
-          git fetch origin main
-          git tag -f "${{ steps.get-data.outputs.tag }}" origin/main
-          git push -f origin "${{ steps.get-data.outputs.tag }}"
+              git fetch origin main
+              git checkout main
+              git tag -f "${{ steps.get-data.outputs.version }}"
+              git push -f origin "${{ steps.get-data.outputs.version }}"
