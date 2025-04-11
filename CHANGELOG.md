@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/GitHaHaHub/dm13/compare/v1.6.0...v1.7.0) (2025-04-11)
+
+
+### Features
+
+* mod ([0f4c1f9](https://github.com/GitHaHaHub/dm13/commit/0f4c1f947890e4285b6c5b98ed8e92bf4ac1833a))
+
 ## [1.6.0](https://github.com/GitHaHaHub/dm13/compare/v1.5.0...v1.6.0) (2025-04-11)
 
 
