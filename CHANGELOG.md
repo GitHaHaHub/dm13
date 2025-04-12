@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.14.0](https://github.com/GitHaHaHub/dm13/compare/v1.13.0...v1.14.0) (2025-04-12)
+
+
+### Features
+
+* del c ([a4ef47a](https://github.com/GitHaHaHub/dm13/commit/a4ef47acfcb66329d7478e3ffc12263e7c4f3135))
+* please ([29e9f90](https://github.com/GitHaHaHub/dm13/commit/29e9f90006aab5af9cc49435407dc6cb7d31a7ce))
+
 ## [1.13.0](https://github.com/GitHaHaHub/dm13/compare/v1.12.0...v1.13.0) (2025-04-12)
 
 
