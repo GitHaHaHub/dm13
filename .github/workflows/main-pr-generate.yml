@@ -64,12 +64,12 @@ jobs:
         run: |
           # Edit the commit message file directly
           # Replace only the first line
-          sed '1s/chore(develop):/chore(main):/' commit_msg.txt > merge_message.txt
+
 
           git fetch origin main
           git checkout main
 
-          git merge --no-ff origin/develop -F merge_message.txt
+          git merge --no-ff origin/develop -F commit_msg.txt
           git push origin main
 
 
