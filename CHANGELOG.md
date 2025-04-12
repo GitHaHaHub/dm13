@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.18.0](https://github.com/GitHaHaHub/dm13/compare/v1.17.0...v1.18.0) (2025-04-12)
+
+
+### Features
+
+* err ([b581d84](https://github.com/GitHaHaHub/dm13/commit/b581d84767536e424dedfb1934775294dc37e2d2))
+* please ([b98f8eb](https://github.com/GitHaHaHub/dm13/commit/b98f8eb0e0d8b036fa6c8f28ddffbd22ca71d75a))
+
 ## [1.17.0](https://github.com/GitHaHaHub/dm13/compare/v1.16.0...v1.17.0) (2025-04-12)
 
 
