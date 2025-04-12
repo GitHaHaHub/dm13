@@ -59,7 +59,7 @@ jobs:
         id: merge-pr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          run: |
+        run: |
             git fetch origin main
             git checkout main
 
