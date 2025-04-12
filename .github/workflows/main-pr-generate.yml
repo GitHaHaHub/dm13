@@ -63,7 +63,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Edit the commit message file directly
-          sed 's/chore(develop):/chore(main):/' commit_msg.txt > merge_message.txt
+          # Replace only the first line
+          sed '1s/chore(develop):/chore(main):/' commit_msg.txt > merge_message.txt
 
           git fetch origin main
           git checkout main
