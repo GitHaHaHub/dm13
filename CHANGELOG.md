@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://github.com/GitHaHaHub/dm13/compare/v1.10.0...v1.11.0) (2025-04-12)
+
+
+### Features
+
+* b ([4853192](https://github.com/GitHaHaHub/dm13/commit/4853192d6458bba83d8db2701c8d0a252bb9723b))
+
 ## [1.10.0](https://github.com/GitHaHaHub/dm13/compare/v1.9.0...v1.10.0) (2025-04-12)
 
 
