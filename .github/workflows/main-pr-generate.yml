@@ -33,17 +33,14 @@ jobs:
         run: |
           git fetch origin develop
 
-          # Capture commit message safely
-          COMMIT_MSG=$(git log origin/develop -1 --pretty=%B)
-          # Trim any trailing newline
-          COMMIT_MSG="${COMMIT_MSG%"${COMMIT_MSG##*[![:space:]]}"}"
-          echo "commit_msg<<EOF" >> "$GITHUB_OUTPUT"
-          echo "$COMMIT_MSG" >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
+          git log origin/develop -1 --pretty=raw > commit_raw.txt
 
-          # Capture version (may be empty)
-          VERSION=$(echo "$COMMIT_MSG" | grep -oP '\d+\.\d+\.\d+')
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          # Get the latest commit message from develop and save to file
+          git log origin/develop -1 --pretty=%B > commit_msg.txt
+
+          # Also extract the version string from the message
+          VERSION=$(grep -oP '\d+\.\d+\.\d+' commit_msg.txt || true)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
 
       - name: Create PR from develop to main
@@ -65,16 +62,13 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          COMMIT_MSG="${{ steps.get-data.outputs.commit_msg }}"
-          FINAL_MSG=$(echo "$COMMIT_MSG" | sed 's/chore(develop):/chore(main):/')
-
-          # Write to a file (preserves newlines!)
-          echo "$FINAL_MSG" > merge_message.txt
+          # Edit the commit message file directly
+          sed 's/chore(develop):/chore(main):/' commit_msg.txt > merge_message.txt
 
           git fetch origin main
           git checkout main
 
-          git merge --no-ff "origin/develop" -F merge_message.txt
+          git merge --no-ff origin/develop -F merge_message.txt
           git push origin main
 
 
