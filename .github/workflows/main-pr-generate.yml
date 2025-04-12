@@ -65,13 +65,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          COMMIT_MSG="$(echo "${{ steps.get-data.outputs.commit_msg }}")"
+          COMMIT_MSG="${{ steps.get-data.outputs.commit_msg }}"
           FINAL_MSG=$(echo "$COMMIT_MSG" | sed 's/chore(develop):/chore(main):/')
-          
+
+          # Write to a file (preserves newlines!)
+          echo "$FINAL_MSG" > merge_message.txt
+
           git fetch origin main
           git checkout main
 
-          git merge --no-ff "origin/develop" -m "$FINAL_MSG"
+          git merge --no-ff "origin/develop" -F merge_message.txt
           git push origin main
 
 
