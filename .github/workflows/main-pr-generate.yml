@@ -36,7 +36,7 @@ jobs:
           # Get the latest commit message from develop and save to file
           git show origin/develop -s --format=%B | base64 -w 0 > commit_msg.b64
 
-          cat -A commit_msg.txt
+          cat -A commit_msg.b64
   
           # Also extract the version string from the message
           VERSION=$(git show origin/develop -s --format=%B | grep -oP '\d+\.\d+\.\d+' || true)
@@ -69,9 +69,7 @@ jobs:
           git fetch origin main
           git checkout main
 
-
           base64 -d commit_msg.b64 > commit_msg.txt
-
           git merge --no-ff origin/develop -F commit_msg.txt
           git push origin main
 
