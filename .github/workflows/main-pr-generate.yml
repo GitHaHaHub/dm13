@@ -28,7 +28,7 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
 
-      - name: Get Data from latest develop
+      - name: Get Data
         id: get-data
         run: |
           git fetch origin develop
@@ -42,8 +42,8 @@ jobs:
           echo "EOF" >> "$GITHUB_OUTPUT"
 
           # Capture version (may be empty)
-          VERSION=$(git tag --points-at origin/develop | sed 's/^.//')
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          VERSION=$(echo "$COMMIT_MSG" | grep -oP '\d+\.\d+\.\d+')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
 
       - name: Create PR from develop to main
