@@ -60,20 +60,21 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Edit the commit message file directly
-          # Replace only the first line
+            git fetch origin main
+            git checkout main
 
+            # Extract and sanitize commit message
+            MESSAGE=$(git show origin/develop -s --format=%B)
 
-          git fetch origin main
-          git checkout main
+            # Replace 'chore(develop)' with 'chore(main)' only on the first line
+            TITLE=$(echo "$MESSAGE" | head -n1 | sed 's/chore(develop):/chore(main):/')
+            BODY=$(echo "$MESSAGE" | tail -n +2)
 
+            # Reconstruct commit message
+            echo -e "$TITLE\n\n$BODY" > merge_message.txt
 
-          base64 --decode commit_msg.b64 > commit_msg.txt
-
-          cat -A commit_msg.txt
-
-          git merge --no-ff origin/develop -F commit_msg.txt
-          git push origin main
+            git merge --no-ff origin/develop -F merge_message.txt
+            git push origin main
 
 
       - name: Add published label to PR
