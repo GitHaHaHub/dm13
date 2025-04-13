@@ -85,10 +85,8 @@ jobs:
               repo: context.repo.repo,
               labels: ["autorelease: published"]
             })
-
-            - name: Change original label
-
-
+    
+      - name: Change original label
       - uses: actions/github-script@v7
         with:
           script: |
