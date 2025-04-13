@@ -97,6 +97,7 @@ jobs:
         id: tag-develop
         run: |
               git fetch origin develop
+              git checkout develop
               git tag -f "v${{ steps.get-data.outputs.version }}"
               git push -f origin "v${{ steps.get-data.outputs.version }}"
 
@@ -108,6 +109,6 @@ jobs:
           gh release create "${{ steps.get-data.outputs.version }}" \
             --title "${{ steps.get-data.outputs.version }}" \
             --notes "$(
-              echo "${{ github.event.pull_request.body }}" | sed '1,/^---$/d' | sed '/^---$/q'
+              echo "${{ github.event.pull_request.body }}" | sed '1,/\n---\n/d; /\n---\n/,+1 d'
             )" \
             --target main
