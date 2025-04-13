@@ -100,5 +100,5 @@ jobs:
         run: |
           gh release create "${{ steps.get-data.outputs.version }}" \
           --title "${{ steps.get-data.outputs.version }}" \
-          --notes "sed '1,/^---$/d' ${{ github.event.pull_request.body }} | sed '/^---$/q'" \
+          --notes sed '1,/^---$/d' "${{ github.event.pull_request.body }}"" | sed '/^---$/q' \
           --target main
