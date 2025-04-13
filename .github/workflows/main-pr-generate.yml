@@ -94,7 +94,7 @@ jobs:
               issue_number: ${{ github.event.pull_request.number }},
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: "autorelease: pending"
+              name: "autorelease: pending"
             });
             
             github.rest.issues.addLabels({
