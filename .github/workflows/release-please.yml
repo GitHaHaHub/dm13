@@ -22,3 +22,5 @@ jobs:
         with:
           release-type: simple
           target-branch: develop
+          skip-github-release: true
+          

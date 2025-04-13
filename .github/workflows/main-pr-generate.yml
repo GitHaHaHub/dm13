@@ -60,21 +60,20 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-            git fetch origin main
-            git checkout main
+          # Edit the commit message file directly
+          # Replace only the first line
 
-            # Extract and sanitize commit message
-            MESSAGE=$(git show origin/develop -s --format=%B)
 
-            # Replace 'chore(develop)' with 'chore(main)' only on the first line
-            TITLE=$(echo "$MESSAGE" | head -n1 | sed 's/chore(develop):/chore(main):/')
-            BODY=$(echo "$MESSAGE" | tail -n +2)
+          git fetch origin main
+          git checkout main
 
-            # Reconstruct commit message
-            echo -e "$TITLE\n\n$BODY" > merge_message.txt
 
-            git merge --no-ff origin/develop -F merge_message.txt
-            git push origin main
+          base64 --decode commit_msg.b64 > commit_msg.txt
+
+          cat -A commit_msg.txt
+
+          git merge --no-ff origin/develop -F commit_msg.txt
+          git push origin main
 
 
       - name: Add published label to PR
@@ -94,3 +93,14 @@ jobs:
               git fetch origin main
               git tag -f "${{ steps.get-data.outputs.version }}"
               git push -f origin "${{ steps.get-data.outputs.version }}"
+
+      - name: Create release
+        id: create-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ steps.get-data.outputs.version }}" \
+          --title "Release ${{ steps.get-data.outputs.version }}" \
+          --notes "${{ github.event.pull_request.body }}" \
+          --target main \
+          --generate-notes
