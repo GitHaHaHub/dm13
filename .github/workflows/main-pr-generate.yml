@@ -1,4 +1,4 @@
-name: main-pr-generate
+name: main-pr
 
 on:
   pull_request:
@@ -12,8 +12,8 @@ permissions:
   issues: write
 
 jobs:
-  main-pr:
-    if: startsWith(github.event.pull_request.title, 'chore(develop)')
+  Main-pr-generate-and-merge:
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'chore(develop)')
     runs-on: ubuntu-latest
 
     steps:
@@ -33,12 +33,17 @@ jobs:
         run: |
           git fetch origin develop
 
-          # Get the latest commit message from develop and save to file
-          git show origin/develop -s --format=%B | base64 > commit_msg.b64
-  
-          # Also extract the version string from the message
-          VERSION=$(git show origin/develop -s --format=%B | grep -oP '\d+\.\d+\.\d+' || true)
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          # Capture commit message safely
+          COMMIT_MSG=$(git log origin/develop -1 --pretty=%B)
+          # Trim any trailing newline
+          COMMIT_MSG="${COMMIT_MSG%"${COMMIT_MSG##*[![:space:]]}"}"
+          echo "commit_msg<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$COMMIT_MSG" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+          # Capture version (may be empty)
+          VERSION=$(echo "$COMMIT_MSG" | grep -oP '\d+\.\d+\.\d+')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
 
       - name: Create PR from develop to main
@@ -60,19 +65,13 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Edit the commit message file directly
-          # Replace only the first line
-
-
+          COMMIT_MSG="$(echo "${{ steps.get-data.outputs.commit_msg }}")"
+          FINAL_MSG=$(echo "$COMMIT_MSG" | sed 's/chore(develop):/chore(main):/')
+          
           git fetch origin main
           git checkout main
 
-
-          base64 --decode commit_msg.b64 > commit_msg.txt
-
-          cat -A commit_msg.txt
-
-          git merge --no-ff origin/develop -F commit_msg.txt
+          git merge --no-ff "origin/develop" -m "$FINAL_MSG"
           git push origin main
 
 
@@ -100,7 +99,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release create "${{ steps.get-data.outputs.version }}" \
-          --title "Release ${{ steps.get-data.outputs.version }}" \
-          --notes "${{ github.event.pull_request.body }}" \
-          --target main \
-          --generate-notes
+          --title "${{ steps.get-data.outputs.version }}" \
+          --notes "sed '1,/^---$/d' ${{ github.event.pull_request.body }} | sed '/^---$/q'" \
+          --target main
