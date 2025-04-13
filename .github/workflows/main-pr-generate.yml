@@ -114,6 +114,7 @@ jobs:
       - name: Tag develop
         id: tag-develop
         run: |
+              git checkout develop
               git fetch origin develop
               git tag -f "v${{ steps.get-data.outputs.version }}"
               git push -f origin "v${{ steps.get-data.outputs.version }}"
