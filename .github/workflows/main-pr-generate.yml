@@ -93,12 +93,22 @@ jobs:
               git tag -f "${{ steps.get-data.outputs.version }}"
               git push -f origin "${{ steps.get-data.outputs.version }}"
 
+      - name: Tag develop
+        id: tag-develop
+        run: |
+              git fetch origin develop
+              git tag -f "v${{ steps.get-data.outputs.version }}"
+              git push -f origin "v${{ steps.get-data.outputs.version }}"
+
       - name: Create release
         id: create-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release create "${{ steps.get-data.outputs.version }}" \
-          --title "${{ steps.get-data.outputs.version }}" \
-          --notes sed '1,/^---$/d' "${{ github.event.pull_request.body }}"" | sed '/^---$/q' \
-          --target main
+            --title "${{ steps.get-data.outputs.version }}" \
+            --notes "$(
+              echo "${{ github.event.pull_request.body }}" | sed '1,/^---$/d' | sed '/^---$/q'
+            )" \
+            --target main
+
