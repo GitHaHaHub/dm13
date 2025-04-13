@@ -1,5 +1,36 @@
 # Changelog
 
+## [1.21.0](https://github.com/GitHaHaHub/dm13/compare/1.20.0...v1.21.0) (2025-04-13)
+
+
+### Features
+
+* a ([2af02ba](https://github.com/GitHaHaHub/dm13/commit/2af02ba0ac191531cc01fa41d6a399e1eec5158b))
+* add c ([c593db3](https://github.com/GitHaHaHub/dm13/commit/c593db3152f541ad36124fb518b307d659e479dd))
+* add c ([76affbc](https://github.com/GitHaHaHub/dm13/commit/76affbcb66a014c048a0b2e51ec8cf6f8897d2cc))
+* b ([0656cec](https://github.com/GitHaHaHub/dm13/commit/0656cec4989ed52b44649cecba03a6e24650b29f))
+* b ([4853192](https://github.com/GitHaHaHub/dm13/commit/4853192d6458bba83d8db2701c8d0a252bb9723b))
+* b ([f5978d6](https://github.com/GitHaHaHub/dm13/commit/f5978d6dbc7312f38da4ab667ff91f8c937f1dfc))
+* b ([42cf2ec](https://github.com/GitHaHaHub/dm13/commit/42cf2ece964b3657839baabcd5d4a4d441e5887d))
+* bb ([f8dd3ec](https://github.com/GitHaHaHub/dm13/commit/f8dd3ec464183c117d8a70624ceb27fe4131797a))
+* del b ([7965340](https://github.com/GitHaHaHub/dm13/commit/7965340a0df97c41dd5ba16197ef15a52b56ed49))
+* del b ([7fbba91](https://github.com/GitHaHaHub/dm13/commit/7fbba91a50675c8464b8334f2e64cc70bf8a18a9))
+* del c ([a4ef47a](https://github.com/GitHaHaHub/dm13/commit/a4ef47acfcb66329d7478e3ffc12263e7c4f3135))
+* del c ([aeb860e](https://github.com/GitHaHaHub/dm13/commit/aeb860e6773f932b79e9294a19c17ed9b5fa2fc4))
+* docx ([1279f8f](https://github.com/GitHaHaHub/dm13/commit/1279f8f3f2984cde4c09d1dd15a07d9eda4f38c0))
+* err ([b581d84](https://github.com/GitHaHaHub/dm13/commit/b581d84767536e424dedfb1934775294dc37e2d2))
+* jinmak ([8339a09](https://github.com/GitHaHaHub/dm13/commit/8339a0988264148a2e9982ec2b98b8d9a9a354b9))
+* last ([34b4c1e](https://github.com/GitHaHaHub/dm13/commit/34b4c1eba8f9ecfe41e3d8507ab137c4a06d42d5))
+* last ([a208237](https://github.com/GitHaHaHub/dm13/commit/a2082371a7e0db81e06de8e06d8d83439d3594e7))
+* last please ([77b2928](https://github.com/GitHaHaHub/dm13/commit/77b2928ab76743172c62109be6e10ab4141bca06))
+* m ([542f0a0](https://github.com/GitHaHaHub/dm13/commit/542f0a0d4519f28a03cb87b4a1b8008669a97eff))
+* mod ([0f4c1f9](https://github.com/GitHaHaHub/dm13/commit/0f4c1f947890e4285b6c5b98ed8e92bf4ac1833a))
+* new ([e5f6818](https://github.com/GitHaHaHub/dm13/commit/e5f68186095bc157f63b44d1afc9981dcffb1b4e))
+* new ([2dde6ff](https://github.com/GitHaHaHub/dm13/commit/2dde6ffa30464062336dacb216d774451eafc0f0))
+* please ([b98f8eb](https://github.com/GitHaHaHub/dm13/commit/b98f8eb0e0d8b036fa6c8f28ddffbd22ca71d75a))
+* please ([29e9f90](https://github.com/GitHaHaHub/dm13/commit/29e9f90006aab5af9cc49435407dc6cb7d31a7ce))
+* x ([7c9fbe5](https://github.com/GitHaHaHub/dm13/commit/7c9fbe5a95980b765bc8bd85c4e7bde65531f340))
+
 ## [1.20.0](https://github.com/GitHaHaHub/dm13/compare/1.19.0...v1.20.0) (2025-04-13)
 
 
