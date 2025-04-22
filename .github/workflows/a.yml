@@ -1,0 +1,29 @@
+name: main-pr
+
+on:
+  push:
+    branches:
+      - develop
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  what:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+          fetch-depth: 0
+          sparse-checkout: ptlink-client
+
+      - name: print
+        run: |
+          ls -la
+          echo "Listing all files:"
+          find . -type f
