@@ -20,8 +20,7 @@ jobs:
       - name: Checkout develop
         uses: actions/checkout@v4
         with:
-          ref: develop
-          fetch-depth: 0
+          sparse-checkout: ptlink-client
 
       - name: Set up Git
         run: |
