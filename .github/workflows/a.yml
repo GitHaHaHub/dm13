@@ -26,8 +26,15 @@ jobs:
           fetch-depth: 0
           sparse-checkout: ptlink-client
 
+      - name: Setup Gradle 8.10.2
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.10.2"
+
       - name: print
         run: |
           ls -la
           echo "Listing all files:"
           find . -type f
+
+      
